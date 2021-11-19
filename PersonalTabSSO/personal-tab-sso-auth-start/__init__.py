@@ -1,24 +1,22 @@
-import logging
+import azure.functions as func 
+from flask import Flask, render_template_string
+import sys
+import os
+from cacheHelper import CacheHelper
 
-import azure.functions as func
+app = Flask(__name__)
 
+this = sys.modules[__name__]
+this.cacheHelper = None
 
-def main(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info('Python HTTP trigger function processed a request.')
+def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
+    if this.cacheHelper is None:
+        this.cacheHelper = CacheHelper(context.function_directory)
+    return func.WsgiMiddleware(app).handle(req, context)
 
-    name = req.params.get('name')
-    if not name:
-        try:
-            req_body = req.get_json()
-        except ValueError:
-            pass
-        else:
-            name = req_body.get('name')
+@app.route("/api/personal-tab-sso-auth-start")
+def auth_start():
+    auth_start_template = this.cacheHelper.get_file("/templates/auth_start.html")
+    auth_js = this.cacheHelper.get_file("/static/js/auth.js")
 
-    if name:
-        return func.HttpResponse(f"Hello, {name}. This HTTP triggered function executed successfully.")
-    else:
-        return func.HttpResponse(
-             "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.",
-             status_code=200
-        )
+    return render_template_string(auth_start_template, context = { "AzureClientId": os.environ.get("ClientId"), "auth_js": auth_js })

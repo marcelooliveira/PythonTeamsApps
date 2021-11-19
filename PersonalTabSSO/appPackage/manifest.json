@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
   "manifestVersion": "1.5",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "id": "2337305b-1ccf-424d-b7f0-62878d0f2e9e",
   "packageName": "com.contoso.teamsauthsso",
     "developer": {

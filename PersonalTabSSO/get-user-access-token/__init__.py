@@ -1,24 +1,21 @@
-import logging
+from flask import Flask
+import azure.functions as func 
+from flask import Flask
+import sys
 
-import azure.functions as func
+from ssoAuthHelper import GetAccessTokenOnBehalfUser
 
+app = Flask(__name__)
 
-def main(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info('Python HTTP trigger function processed a request.')
+this = sys.modules[__name__]
+this.function_directory = None
 
-    name = req.params.get('name')
-    if not name:
-        try:
-            req_body = req.get_json()
-        except ValueError:
-            pass
-        else:
-            name = req_body.get('name')
+def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
+    this.function_directory = context.function_directory
 
-    if name:
-        return func.HttpResponse(f"Hello, {name}. This HTTP triggered function executed successfully.")
-    else:
-        return func.HttpResponse(
-             "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.",
-             status_code=200
-        )
+    return func.WsgiMiddleware(app).handle(req, context)
+
+@app.route("/api/get-user-access-token")
+def GetUserAccessToken():
+    return GetAccessTokenOnBehalfUser()
+    

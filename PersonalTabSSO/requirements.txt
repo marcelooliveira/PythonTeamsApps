@@ -4,4 +4,4 @@
 
 azure-functions
 flask==2.0.2
-requests==2.25.0
+msal

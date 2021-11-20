@@ -1,7 +1,11 @@
 from flask import request
-import requests
-import json
+import msal
 import os
+
+app = msal.ConfidentialClientApplication(
+    client_id=os.environ.get("ClientId"),
+    authority="https://login.microsoftonline.com/" + os.environ.get("TenantId"),
+    client_credential=os.environ.get("AppSecret"))
 
 class AuthError(Exception):
     def __init__(self, error, status_code):
@@ -9,30 +13,12 @@ class AuthError(Exception):
         self.status_code = status_code
 
 def GetAccessTokenOnBehalfUser():
-  try:
+  # try:
     idToken = get_token_auth_header()
-    body = f"""assertion={idToken}
-&requested_token_use=on_behalf_of
-&grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer
-&client_id={os.environ.get("ClientId")}@{os.environ.get("TenantId")}
-&client_secret={os.environ.get("AppSecret")}
-&scope=https://graph.microsoft.com/User.Read""";
-    headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
-    encoded_data = body.encode('utf-8')
-    url = os.environ.get("Instance") + os.environ.get("TenantId") + os.environ.get("AuthUrl")
-    r = requests.post(url, data=encoded_data,
-      headers=headers,
-      auth=requests.auth.HTTPBasicAuth("user", "password"))
 
-    if (r.status_code == 200):
-      responseBody = r.content
-    else:
-      responseBody = r.content
-      raise Exception(responseBody)
-
-    return json.loads(responseBody)["access_token"]
-  except Exception as ex:
-    return ex.Message;
+    dic = app.acquire_token_on_behalf_of(user_assertion=idToken,
+     scopes=["https://graph.microsoft.com/User.Read"])
+    return dic["access_token"]
 
 def get_token_auth_header():
   """Obtains the Access Token from the Authorization Header

@@ -1,17 +1,14 @@
+//2021-11-22
 let accessToken;
 
 $(document).ready(function () {
     microsoftTeams.initialize();
 
-$('#divLog').append('<br/> 6')
-    
     getClientSideToken()
         .then((clientSideToken) => {
             return getServerSideToken(clientSideToken);
         })
         .catch((error) => {
-$('#divLog').append('<br/> ' + error)
-
             if (error === "invalid_grant") {
                 // Display in-line button so user can consent
                 $("#divError").text("Error while exchanging for Server token - invalid_grant - User or admin consent is required.");
@@ -73,7 +70,6 @@ function getServerSideToken(clientSideToken) {
             var scopes = ["https://graph.microsoft.com/User.Read"];
             const getUserAccessTokenURL = '/api/get-user-access-token';
 
-
             fetch(getUserAccessTokenURL, {
                 method: 'get',
                 headers: {
@@ -100,6 +96,7 @@ function getServerSideToken(clientSideToken) {
                     getPhotoAsync(accessToken);
                 }
             });
+
         });
     });
 }

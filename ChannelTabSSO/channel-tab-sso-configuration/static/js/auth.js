@@ -69,18 +69,33 @@ function getServerSideToken(clientSideToken) {
             var scopes = ["https://graph.microsoft.com/User.Read"];
             const getUserAccessTokenURL = '/api/get-user-access-token';
 
-            $.ajax({
-                url: getUserAccessTokenURL,
-                type: "GET",
-                beforeSend: function (request) {
-                    request.setRequestHeader("Authorization", `Bearer ${clientSideToken}`);
+            fetch(getUserAccessTokenURL, {
+                method: 'get',
+                headers: {
+                    "Content-Type": "application/text",
+                    "Authorization": "Bearer " + clientSideToken
                 },
-                success: function (responseJson) {
+                cache: 'default'
+            })
+            .then((response) => {
+                if (response.ok) {                        
+                    return response.text();
+                } else {
+                    reject(response.error);
+                }
+            })
+            .then((responseJson) => {
+                if (IsValidJSONString(responseJson)) {
+                    if (JSON.parse(responseJson).error)
+                        reject(JSON.parse(responseJson).error);
+                } else if (responseJson) {
                     accessToken = responseJson;
+                    console.log("Exchanged token: " + accessToken);
                     getUserInfo(context.userPrincipalName);
                     getPhotoAsync(accessToken);
                 }
-            })
+            });
+
         });
     });
 }

@@ -13,12 +13,13 @@ class AuthError(Exception):
         self.status_code = status_code
 
 def GetAccessTokenOnBehalfUser():
-  # try:
     idToken = get_token_auth_header()
-
     dic = app.acquire_token_on_behalf_of(user_assertion=idToken,
-     scopes=["https://graph.microsoft.com/User.Read"])
-    return dic["access_token"]
+        scopes=["https://graph.microsoft.com/User.Read"])
+    if "error" in dic.keys():
+        return json.dumps(dic)
+    else:
+        return dic["access_token"]
 
 def get_token_auth_header():
   """Obtains the Access Token from the Authorization Header

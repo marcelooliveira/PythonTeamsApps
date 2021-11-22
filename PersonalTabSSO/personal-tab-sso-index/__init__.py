@@ -1,5 +1,5 @@
 import azure.functions as func 
-from flask import Flask, render_template_string
+from flask import Flask
 import sys
 from cacheHelper import CacheHelper
 
@@ -15,7 +15,4 @@ def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
 
 @app.route("/api/personal-tab-sso-index")
 def index():
-    index_template = this.cacheHelper.get_file("/templates/index.html")
-    auth_js = this.cacheHelper.get_file("/static/js/auth.js")
-
-    return render_template_string(index_template, auth_js=auth_js)
+    return this.cacheHelper.render_cached_page(app, "index.html")

@@ -1,7 +1,6 @@
 import azure.functions as func 
-from flask import Flask, render_template_string
+from flask import Flask
 import sys
-import os
 from cacheHelper import CacheHelper
 
 app = Flask(__name__)
@@ -16,7 +15,4 @@ def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
 
 @app.route("/api/personal-tab-sso-auth-start")
 def auth_start():
-    auth_start_template = this.cacheHelper.get_file("/templates/auth_start.html")
-    auth_js = this.cacheHelper.get_file("/static/js/auth.js")
-
-    return render_template_string(auth_start_template, context = { "AzureClientId": os.environ.get("ClientId"), "auth_js": auth_js })
+    return this.cacheHelper.render_cached_page(app, "auth_start.html")

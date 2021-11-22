@@ -1,6 +1,7 @@
 from flask import request
 import msal
 import os
+import json
 
 app = msal.ConfidentialClientApplication(
     client_id=os.environ.get("ClientId"),

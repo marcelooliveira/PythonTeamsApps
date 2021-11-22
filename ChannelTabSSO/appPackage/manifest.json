@@ -1,0 +1,45 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.5",
+  "version": "3.0.1",
+  "id": "f173778b-99c2-464d-a41f-61e119d81a01",
+  "packageName": "com.contoso.teamsauthsso",
+  "developer": {
+    "name": "Microsoft",
+    "websiteUrl": "https://www.microsoft.com",
+    "privacyUrl": "https://www.microsoft.com/privacy",
+    "termsOfUseUrl": "https://www.microsoft.com/termsofuse"
+  },
+  "name": {
+    "short": "Teams Auth SSO",
+    "full": "Teams Auth SSO"
+  },
+  "description": {
+    "short": "Teams Auth SSO app",
+    "full": "The Teams Auth SSO app"
+  },
+  "icons": {
+    "outline": "outline.png",
+    "color": "color.png"
+  },
+  "accentColor": "#60A18E",
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://channel-tab-sso-function-app.azurewebsites.net/api/channel-tab-sso-configuration",
+      "canUpdateConfiguration": true,
+      "scopes": [
+        "team",
+        "groupchat"
+      ]
+    }
+  ],
+  "permissions": [ "identity", "messageTeamMembers" ],
+  "validDomains": [
+    "*.ngrok.io",
+    "channel-tab-sso-function-app.azurewebsites.net"
+  ],
+  "webApplicationInfo": {
+    "id": "f173778b-99c2-464d-a41f-61e119d81a01",
+    "resource": "api://channel-tab-sso-function-app.azurewebsites.net"
+  }
+}

@@ -89,7 +89,7 @@ function getServerSideToken(clientSideToken) {
                     reject(response.error);
                 }
             })
-            .then((resxponseJson) => {
+            .then((responseJson) => {
                 if (IsValidJSONString(responseJson)) {
                     if (JSON.parse(responseJson).error)
                         reject(JSON.parse(responseJson).error);

@@ -36,7 +36,7 @@ function requestConsent() {
 function getToken() {
     return new Promise((resolve, reject) => {
         microsoftTeams.authentication.authenticate({
-            url: window.location.origin + "/api/channel-tab-sso-auth-start",
+            url: window.location.origin + "/api/az-function-auth-start",
             width: 600,
             height: 535,
             successCallback: result => {

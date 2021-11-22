@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
   "manifestVersion": "1.5",
-  "version": "3.0.1",
+  "version": "4.0.1",
   "id": "f173778b-99c2-464d-a41f-61e119d81a01",
   "packageName": "com.contoso.teamsauthsso",
   "developer": {
@@ -25,7 +25,7 @@
   "accentColor": "#60A18E",
   "configurableTabs": [
     {
-      "configurationUrl": "https://channel-tab-sso-function-app.azurewebsites.net/api/channel-tab-sso-configuration",
+      "configurationUrl": "https://channel-tab-sso-function-app.azurewebsites.net/api/az-function-configuration",
       "canUpdateConfiguration": true,
       "scopes": [
         "team",

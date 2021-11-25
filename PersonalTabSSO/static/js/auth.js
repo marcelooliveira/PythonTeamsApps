@@ -35,7 +35,7 @@ function requestConsent() {
 function getToken() {
     return new Promise((resolve, reject) => {
         microsoftTeams.authentication.authenticate({
-            url: window.location.origin + "/api/personal-tab-sso-auth-start",
+            url: window.location.origin + "/api/az-function-auth-start",
             width: 600,
             height: 535,
             successCallback: result => {
@@ -67,7 +67,7 @@ function getServerSideToken(clientSideToken) {
     return new Promise((resolve, reject) => {
         microsoftTeams.getContext((context) => {
             var scopes = ["https://graph.microsoft.com/User.Read"];
-            const getUserAccessTokenURL = '/api/get-user-access-token';
+            const getUserAccessTokenURL = '/api/az-function-get-user-access-token';
 
             fetch(getUserAccessTokenURL, {
                 method: 'get',

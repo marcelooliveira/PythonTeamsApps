@@ -13,6 +13,6 @@ def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
         this.cacheHelper = CacheHelper(context.function_directory)
     return func.WsgiMiddleware(app).handle(req, context)
 
-@app.route("/api/personal-tab-sso-auth-end")
+@app.route("/api/az-function-auth-end")
 def index():
     return this.cacheHelper.render_cached_page(app, "auth_end.html")

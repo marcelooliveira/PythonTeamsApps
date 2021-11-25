@@ -15,7 +15,7 @@ def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
 
     return func.WsgiMiddleware(app).handle(req, context)
 
-@app.route("/api/get-user-access-token")
+@app.route("/api/az-function-get-user-access-token")
 def GetUserAccessToken():
     return GetAccessTokenOnBehalfUser()
     

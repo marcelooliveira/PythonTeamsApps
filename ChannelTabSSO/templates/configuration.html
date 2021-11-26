@@ -6,9 +6,9 @@
   <button onclick="requestConsent()" id="consent" style="display:none;">Authenticate</button>
   <div id="divGraphProfile" style="display: none"></div>
 
-  <button onclick="(document.getElementById('icon').src = 'https://github.com/marcelooliveira/PythonTeamsApps/tree/main/ChannelTabSSO/static/images/IconGray.png'); colorClickGray()">Select Gray</button>
-  <img id="icon" src="https://github.com/marcelooliveira/PythonTeamsApps/tree/main/ChannelTabSSO/static/images/TeamsIcon.png" alt="icon" style="width:100px" />
-  <button onclick="(document.getElementById('icon').src = 'https://github.com/marcelooliveira/PythonTeamsApps/tree/main/ChannelTabSSO/static/images/IconRed.png'); colorClickRed()">Select Red</button>
+  <button onclick="(document.getElementById('icon').src = 'https://raw.githubusercontent.com/marcelooliveira/PythonTeamsApps/main/ChannelTabSSO/static/images/IconGray.png'); colorClickGray()">Select Gray</button>
+  <img id="icon" src="https://raw.githubusercontent.com/marcelooliveira/PythonTeamsApps/main/ChannelTabSSO/static/images/TeamsIcon.png" alt="icon" style="width:100px" />
+  <button onclick="(document.getElementById('icon').src = 'https://raw.githubusercontent.com/marcelooliveira/PythonTeamsApps/main/ChannelTabSSO/static/images/IconRed.png'); colorClickRed()">Select Red</button>
 {% endblock %}
 {% block scripts %}
 <script>
@@ -17,7 +17,7 @@
       microsoftTeams.settings.registerOnSaveHandler((saveEvent) => {
           microsoftTeams.settings.setSettings({
               websiteUrl: window.location.origin ,
-              contentUrl: window.location.origin + "",
+              contentUrl: window.location.origin + "/api/az-function-index",
               entityId: "Python Channel Configure",
               suggestedDisplayName: "Python Channel Configure - Grey Settings"
           });
@@ -28,7 +28,7 @@
       microsoftTeams.settings.registerOnSaveHandler((saveEvent) => {
           microsoftTeams.settings.setSettings({
               websiteUrl: window.location.origin ,
-              contentUrl: window.location.origin + "",
+              contentUrl: window.location.origin + "/api/az-function-index",
               entityId: "Python Channel Configure",
               suggestedDisplayName: "Python Channel Configure - Red Settings"
           });

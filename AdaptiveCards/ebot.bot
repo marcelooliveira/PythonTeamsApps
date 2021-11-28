@@ -1,0 +1,18 @@
+{
+    "name": "ebot",
+    "description": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "http://localhost:3978/api/messages",
+            "id": "b2305040-5071-11ec-9d72-d1fb339d5a17",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:3978/api/messages"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0",
+    "path": "C:\\Users\\moliveira\\Documents\\GitHub\\PythonTeamsApps\\AdaptiveCards\\ebot.bot",
+    "overrides": null
+}

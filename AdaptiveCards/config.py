@@ -4,16 +4,14 @@
 
 import os
 
-""" Bot Configuration """
-
+MicrosoftAppId = os.environ.get("MicrosoftAppId", "5371a93b-6337-4dca-ac05-5bd98dee234d")
+MicrosoftAppPassword = os.environ.get("MicrosoftAppPassword", "-qX7Q~jw42rHBpq3sRUPUlj-H1MeDCclwBcAP")
+ConnectionName = os.environ.get("ConnectionName", "my-connection")
+ApplicationBaseUrl = os.environ.get("ApplicationBaseUrl", "https://adaptive-cards-function-app.azurewebsites.net")
 
 class DefaultConfig:
     """ Bot Configuration """
-
-    MicrosoftAppType = os.environ.get("MicrosoftAppType", "MultiTenant")
-    MicrosoftAppId = os.environ.get("MicrosoftAppId", "477862ce-734c-49c7-97f8-84699d62fe15")
-    MicrosoftAppPassword = os.environ.get("MicrosoftAppPassword", "The_power_of_now_2")
-    MicrosoftAppTenantId = ""
-    PORT = 3978
-    CONNECTION_NAME = os.environ.get("ConnectionName", "my-connection")
-    APP_BASE_URL = os.environ.get("ApplicationBaseUrl", "https://824d-2804-14c-bf2f-a532-ed0e-b089-875b-e506.ngrok.io")
+  MicrosoftAppId = os.environ.get("MicrosoftAppId", "5371a93b-6337-4dca-ac05-5bd98dee234d")
+  MicrosoftAppPassword = os.environ.get("MicrosoftAppPassword", "-qX7Q~jw42rHBpq3sRUPUlj-H1MeDCclwBcAP")
+  ConnectionName = os.environ.get("ConnectionName", "my-connection")
+  ApplicationBaseUrl = os.environ.get("ApplicationBaseUrl", "https://adaptive-cards-function-app.azurewebsites.net")

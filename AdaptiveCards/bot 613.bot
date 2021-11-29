@@ -1,0 +1,18 @@
+{
+    "name": "bot 613",
+    "description": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "http://localhost:7071/api/az-function-messages",
+            "id": "3b1e1850-5159-11ec-8bfc-e560cff7b44a",
+            "appId": "5371a93b-6337-4dca-ac05-5bd98dee234d",
+            "appPassword": "-qX7Q~jw42rHBpq3sRUPUlj-H1MeDCclwBcAP",
+            "endpoint": "http://localhost:7071/api/az-function-messages"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0",
+    "path": "C:\\Users\\moliveira\\Documents\\GitHub\\PythonTeamsApps\\AdaptiveCards\\bot 613.bot",
+    "overrides": null
+}

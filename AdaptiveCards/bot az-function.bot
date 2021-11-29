@@ -1,0 +1,18 @@
+{
+    "name": "bot az-function",
+    "description": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "http://localhost:7071/api/az-function-messages",
+            "id": "4b495c30-50be-11ec-9bee-738a2355f9bc",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:7071/api/az-function-messages"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0",
+    "path": "C:\\Users\\moliveira\\Documents\\GitHub\\PythonTeamsApps\\AdaptiveCards\\bot az-function.bot",
+    "overrides": null
+}

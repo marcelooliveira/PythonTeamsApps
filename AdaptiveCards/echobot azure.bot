@@ -1,0 +1,18 @@
+{
+    "name": "echobot azure",
+    "description": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "https://my-echobot.azurewebsites.net/api/messages",
+            "id": "0ba847a0-507b-11ec-9d72-d1fb339d5a17",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "https://my-echobot.azurewebsites.net/api/messages"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0",
+    "path": "C:\\Users\\moliveira\\Documents\\GitHub\\PythonTeamsApps\\AdaptiveCards\\echobot azure.bot",
+    "overrides": null
+}

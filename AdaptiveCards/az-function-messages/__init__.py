@@ -1,4 +1,6 @@
 from flask import Flask,request,Response
+import azure.functions as func 
+import sys
 from botbuilder.schema import Activity
 from botbuilder.core import(  
     BotFrameworkAdapterSettings,
@@ -6,17 +8,10 @@ from botbuilder.core import(
     TurnContext
 )
 import asyncio
-
-app = Flask(__name__)
-
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
-
-
 from echobot import EchoBot
 
 app = Flask(__name__)
+
 loop = asyncio.get_event_loop()
 
 botadaptersettings = BotFrameworkAdapterSettings("","")
@@ -24,7 +19,10 @@ botadapter = BotFrameworkAdapter(botadaptersettings)
 
 ebot = EchoBot()
 
-@app.route("/api/messages",methods=["POST"])
+def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
+    return func.WsgiMiddleware(app).handle(req, context)
+
+@app.route("/api/az-function-messages",methods=["POST"])
 def messages():
     if "application/json" in request.headers["content-type"]:
       jsonmessage = request.json
@@ -38,6 +36,3 @@ def messages():
 
     task = loop.create_task(botadapter.process_activity(activity,"",turn_call))
     loop.run_until_complete(task)
-
-if __name__ == '__main__':
-    app.run('localhost',3978)

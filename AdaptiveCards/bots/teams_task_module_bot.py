@@ -22,8 +22,9 @@ from botbuilder.schema.teams import (
 from botbuilder.core.teams import TeamsActivityHandler
 
 from config import DefaultConfig
-from Models.AdaptiveCardAction import createFetchResponse, createSubmitResponse, invokeTaskResponse, taskSubmitResponse
+from Models.AdaptiveCardAction import createSubmitResponse, invokeTaskResponse, taskSubmitResponse
 from graphClient import GraphClient
+from microsoftgraph.client import Client
 
 class TeamsTaskModuleBot(TeamsActivityHandler):
     def __init__(self, config: DefaultConfig):
@@ -57,11 +58,11 @@ class TeamsTaskModuleBot(TeamsActivityHandler):
 
         graphClient = GraphClient(tokenResponse.token);
 
-        profile = await graphClient.GetUserProfile()
+        profile = graphClient.GetUserProfile()
 
-        userImage = await graphClient.GetUserPhoto()
+        userImage = graphClient.GetUserPhoto()
 
-        return createFetchResponse(userImage, profile.displayName)
+        return createFetchResponse(userImage, profile["displayName"])
 
     async def on_teams_tab_submit(  # pylint: disable=unused-argument
         self, turn_context: TurnContext, tab_submit: TabSubmit
@@ -118,3 +119,124 @@ def createAuthResponse (signInLink):
     }
 
     return CardFactory.adaptive_card(adaptive_card)
+
+def  createFetchResponse(userImage, displayName):
+    adaptive_card = {
+        "status": HTTPStatus.OK,
+        "body": {
+            "tab": {
+                "type": "continue",
+                "value": {
+                    "cards": [
+                        {
+                            # "card": getAdaptiveCardUserDetails(imageString, displayName),
+                            "card": getAdaptiveCardUserDetails("", displayName),
+                        },
+                        {
+                            "card": getAdaptiveCardSubmitAction(),
+                        }
+                    ]
+                },
+            },
+        }
+    }
+
+    return CardFactory.adaptive_card(adaptive_card)
+
+# Adaptive Card with user image, name and Task Module invoke action
+def getAdaptiveCardUserDetails(image, name):
+    adaptive_card = {
+        "$schema": 'http://adaptivecards.io/schemas/adaptive-card.json',
+        "body": [
+            {
+                "type": "ColumnSet",
+                "columns": [
+                    {
+                        "type": "Column",
+                        "items": [
+                            {
+                                "type": "Image",
+                                "url": "https://cdn.vox-cdn.com/thumbor/Ndb49Uk3hjiquS041NDD0tPDPAs=/0x169:1423x914/fit-in/1200x630/cdn.vox-cdn.com/uploads/chorus_asset/file/7342855/microsoftteams.0.jpg"
+                                # "url": os.environ.get("ApplicationBaseUrl") + "/Images/profile-image.jpeg" 
+                                #         if image and image != '' 
+                                #         else "https://cdn.vox-cdn.com/thumbor/Ndb49Uk3hjiquS041NDD0tPDPAs=/0x169:1423x914/fit-in/1200x630/cdn.vox-cdn.com/uploads/chorus_asset/file/7342855/microsoftteams.0.jpg",
+                                #         "size": "Medium"
+                            }
+                        ],
+                        "width": "auto"
+                    },
+                    {
+                        "type": "Column",
+                        "items": [
+                            {
+                                "type": "TextBlock",
+                                "weight": "Bolder",
+                                "text": 'Hello: ' + name,
+                                "wrap": True
+                            },
+                        ],
+                        "width": "stretch"
+                    }
+                ]
+            },
+            {
+                "type": 'ActionSet',
+                "actions": [
+                    {
+                        "type": "Action.Submit",
+                        "title": "Show Task Module",
+                        "data": {
+                            "msteams": {
+                                "type": "task/fetch"
+                            }
+                        }
+                    }
+                ]
+            }
+        ],
+        "type": 'AdaptiveCard',
+        "version": '1.4'
+    }
+  
+    return CardFactory.adaptive_card(adaptive_card)
+
+# Adaptive Card showing sample text and Submit Action
+def getAdaptiveCardSubmitAction():
+    adaptiveCard = {
+        "$schema": 'http://adaptivecards.io/schemas/adaptive-card.json',
+        "body": [
+            {
+                "type": 'Image',
+                "height": '300px',
+                "width": '400px',
+                "url": 'https://cdn.vox-cdn.com/thumbor/Ndb49Uk3hjiquS041NDD0tPDPAs=/0x169:1423x914/fit-in/1200x630/cdn.vox-cdn.com/uploads/chorus_asset/file/7342855/microsoftteams.0.jpg',
+            },
+            {
+                "type": 'TextBlock',
+                "size": 'Medium',
+                "weight": 'Bolder',
+                "text": 'tab/fetch is the first invoke request that your bot receives when a user opens an Adaptive Card tab. When your bot receives the request, it either sends a tab continue response or a tab auth response',
+                "wrap": True,
+            },
+            {
+                "type": 'TextBlock',
+                "size": 'Medium',
+                "weight": 'Bolder',
+                "text": 'tab/submit request is triggered to your bot with the corresponding data through the Action.Submit function of Adaptive Card',
+                "wrap": True,
+            },
+            {
+                "type": 'ActionSet',
+                "actions": [
+                    {
+                        "type": 'Action.Submit',
+                        "title": 'Sign Out',
+                    }
+                ],
+            }
+        ],
+        "type": 'AdaptiveCard',
+        "version": '1.4'
+    };
+
+    return adaptiveCard

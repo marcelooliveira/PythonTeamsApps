@@ -22,7 +22,6 @@ from botbuilder.schema.teams import (
 from botbuilder.core.teams import TeamsActivityHandler
 
 from config import DefaultConfig
-from Models.AdaptiveCardAction import createSubmitResponse, invokeTaskResponse, taskSubmitResponse
 from graphClient import GraphClient
 from microsoftgraph.client import Client
 
@@ -74,7 +73,7 @@ class TeamsTaskModuleBot(TeamsActivityHandler):
         :returns: A Tab Response for the request.
         """
         adapter = turn_context.adapter
-        await adapter.signOutUser(turn_context, os.environ.get("ConnectionName"))
+        await adapter.sign_out_user(turn_context, os.environ.get("ConnectionName"))
 
         # Generating and returning submit response.
         return createSubmitResponse();
@@ -208,8 +207,8 @@ def getAdaptiveCardSubmitAction():
         "body": [
             {
                 "type": 'Image',
-                "height": '300px',
-                "width": '400px',
+                "height": '157px',
+                "width": '300px',
                 "url": 'https://cdn.vox-cdn.com/thumbor/Ndb49Uk3hjiquS041NDD0tPDPAs=/0x169:1423x914/fit-in/1200x630/cdn.vox-cdn.com/uploads/chorus_asset/file/7342855/microsoftteams.0.jpg',
             },
             {
@@ -241,3 +240,138 @@ def getAdaptiveCardSubmitAction():
     };
 
     return adaptiveCard
+
+def invokeTaskResponse():
+    adaptiveCard = {
+        "status": HTTPStatus.OK,
+        "body": {
+            "task": {
+                "type": 'continue',
+                "value": {
+                    "card": {
+                        "contentType": "application/vnd.microsoft.card.adaptive",
+                        "content": adaptiveCardTaskModule()
+                    },
+                    "heigth": 250,
+                    "width": 400,
+                    "title": 'Sample Adaptive Card'
+                }
+            }
+        }
+    }
+
+    return CardFactory.adaptive_card(adaptiveCard)
+
+# Adaptive Card to show in task module
+def adaptiveCardTaskModule():
+    return {
+        '$schema': 'http://adaptivecards.io/schemas/adaptive-card.json',
+        'body': [
+            {
+                'type': 'TextBlock',
+                'size': 'Medium',
+                'weight': 'Bolder',
+                'text': 'Sample task module flow for tab'
+            },
+            {
+                'type': 'Image',
+                'height': '50px',
+                'width': '50px',
+                'url': 'https://cdn.vox-cdn.com/thumbor/Ndb49Uk3hjiquS041NDD0tPDPAs=/0x169:1423x914/fit-in/1200x630/cdn.vox-cdn.com/uploads/chorus_asset/file/7342855/microsoftteams.0.jpg',
+            },
+            {
+                'type': 'ActionSet',
+                'actions': [
+                    {
+                        'type': "Action.Submit",
+                        'title': "Close",
+                        'data': {
+                            'msteams': {
+                                'type': "task/submit"
+                            }
+                        }
+                    }
+                ]
+            }
+        ],
+        'type': 'AdaptiveCard',
+        'version': '1.4'}
+
+# Card response for tab submit request
+def taskSubmitResponse():
+  adaptive_card = {
+    'status': HTTPStatus.OK,
+    'body': {
+        'task': {
+            'value': {
+                'tab': {
+                    'type': "continue",
+                    'value': {
+                        'cards': [
+                            {
+                                'card': taskSubmitCard()
+                            }
+                        ]
+                    }
+                }
+            },
+            'type': "continue"
+        },
+        'responseType': "task"
+    }
+  }
+
+  return CardFactory.adaptive_card(adaptive_card)
+
+# Adaptive Card to show task/submit action
+def taskSubmitCard():
+    return {
+        '$schema': 'http://adaptivecards.io/schemas/adaptive-card.json',
+        'body': [
+            {
+                'type': 'TextBlock',
+                'size': 'Medium',
+                'weight': 'Bolder',
+                'text': 'The action called task/submit. Please refresh to load contents again.',
+                'wrap': True,
+            }
+        ],
+        'type': 'AdaptiveCard',
+        'version': '1.4'
+    }
+
+# Card response for tab submit request
+def createSubmitResponse():
+  adaptive_card = {
+      'status': HTTPStatus.OK,
+      'body': {
+          'tab': {
+              'type': "continue",
+              'value': {
+                  'cards': [
+                      {
+                          'card': signOutCard,
+                      }
+                  ]
+              },
+          },
+      }
+  }
+
+  return CardFactory.adaptive_card(adaptive_card)
+
+# Adaptive Card to show sign out action
+signOutCard = {
+    '$schema': 'http://adaptivecards.io/schemas/adaptive-card.json',
+    'body': [
+        {
+            'type': 'TextBlock',
+            'size': 'Medium',
+            'weight': 'Bolder',
+            'text': 'Sign out successful. Please refresh to Sign in again.',
+            'wrap': True,
+        }
+    ],
+    'type': 'AdaptiveCard',
+    'version': '1.4'
+}

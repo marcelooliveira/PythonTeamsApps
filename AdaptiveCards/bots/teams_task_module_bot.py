@@ -129,8 +129,7 @@ def  createFetchResponse(userImage, displayName):
                 "value": {
                     "cards": [
                         {
-                            # "card": getAdaptiveCardUserDetails(imageString, displayName),
-                            "card": getAdaptiveCardUserDetails("", displayName),
+                            "card": getAdaptiveCardUserDetails(userImage, displayName),
                         },
                         {
                             "card": getAdaptiveCardSubmitAction(),
@@ -145,6 +144,11 @@ def  createFetchResponse(userImage, displayName):
 
 # Adaptive Card with user image, name and Task Module invoke action
 def getAdaptiveCardUserDetails(image, name):
+    if (image and image != ''):
+        image = f"data:image/png;base64, {image}"
+    else:
+        image = "https://cdn.vox-cdn.com/thumbor/Ndb49Uk3hjiquS041NDD0tPDPAs=/0x169:1423x914/fit-in/1200x630/cdn.vox-cdn.com/uploads/chorus_asset/file/7342855/microsoftteams.0.jpg"
+
     adaptive_card = {
         "$schema": 'http://adaptivecards.io/schemas/adaptive-card.json',
         "body": [
@@ -156,11 +160,8 @@ def getAdaptiveCardUserDetails(image, name):
                         "items": [
                             {
                                 "type": "Image",
-                                "url": "https://cdn.vox-cdn.com/thumbor/Ndb49Uk3hjiquS041NDD0tPDPAs=/0x169:1423x914/fit-in/1200x630/cdn.vox-cdn.com/uploads/chorus_asset/file/7342855/microsoftteams.0.jpg"
-                                # "url": os.environ.get("ApplicationBaseUrl") + "/Images/profile-image.jpeg" 
-                                #         if image and image != '' 
-                                #         else "https://cdn.vox-cdn.com/thumbor/Ndb49Uk3hjiquS041NDD0tPDPAs=/0x169:1423x914/fit-in/1200x630/cdn.vox-cdn.com/uploads/chorus_asset/file/7342855/microsoftteams.0.jpg",
-                                #         "size": "Medium"
+                                "url": image,
+                                "size": "Medium"
                             }
                         ],
                         "width": "auto"
@@ -198,7 +199,7 @@ def getAdaptiveCardUserDetails(image, name):
         "version": '1.4'
     }
   
-    return CardFactory.adaptive_card(adaptive_card)
+    return adaptive_card
 
 # Adaptive Card showing sample text and Submit Action
 def getAdaptiveCardSubmitAction():

@@ -6,46 +6,6 @@ from botbuilder.schema import CardAction
 import http
 import json
 import os
- 
-# var fs = require("fs");
-
-# Card response for authentication
-def createAuthResponse (signInLink):
-    print("Create Auth response")
-    # response = TeamsActivityHandler._create_invoke_response(
-    #     TabResponse(
-    #     tab = TabResponsePayload(
-    #         type = "auth",
-    #         suggested_actions = TabSuggestedActions(
-    #             actions = [
-    #                 CardAction(
-    #                     type = "openUrl",
-    #                     value = signInLink,
-    #                     title = "Sign in to this app"
-    #                 )
-    #             ]
-    #         )
-    #     )))
-    # return response
-    adaptive_card = {
-        "status": HTTPStatus.OK,
-        "body": {
-            "tab": {
-                "type": "auth",
-                "suggestedActions": {
-                    "actions": [
-                        {
-                            "type": "openUrl",
-                            "value": signInLink,
-                            "title": "Sign in to this app"
-                        }
-                    ]
-                }
-            },
-        }
-    }
-
-    return CardFactory.adaptive_card(adaptive_card)
 
 # Card response for task module invoke request
 def invokeTaskResponse():

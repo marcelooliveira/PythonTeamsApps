@@ -3,6 +3,7 @@
 
 import json
 import os
+from http import HTTPStatus
 
 from botbuilder.core import (
     CardFactory,
@@ -21,7 +22,7 @@ from botbuilder.schema.teams import (
 from botbuilder.core.teams import TeamsActivityHandler
 
 from config import DefaultConfig
-from Models.AdaptiveCardAction import createAuthResponse, createFetchResponse, createSubmitResponse, invokeTaskResponse, taskSubmitResponse
+from Models.AdaptiveCardAction import createFetchResponse, createSubmitResponse, invokeTaskResponse, taskSubmitResponse
 from graphClient import GraphClient
 
 class TeamsTaskModuleBot(TeamsActivityHandler):
@@ -95,3 +96,25 @@ class TeamsTaskModuleBot(TeamsActivityHandler):
         """
 
         return taskSubmitResponse()
+
+# Card response for authentication
+def createAuthResponse (signInLink):
+    adaptive_card = {
+        "status": HTTPStatus.OK,
+        "body": {
+            "tab": {
+                "type": "auth",
+                "suggestedActions": {
+                    "actions": [
+                        {
+                            "type": "openUrl",
+                            "value": signInLink,
+                            "title": "Sign in to this app"
+                        }
+                    ]
+                }
+            },
+        }
+    }
+
+    return CardFactory.adaptive_card(adaptive_card)

@@ -1,31 +1,20 @@
 from flask import Flask,request,Response
 import azure.functions as func 
 import os
-import json
-import sys
-import traceback
-from datetime import datetime
-
-from botbuilder.schema import Activity, ActivityTypes
+from botbuilder.schema import Activity
 from botbuilder.core import(  
     BotFrameworkAdapterSettings,
-    BotFrameworkAdapter,  
-    TurnContext
+    BotFrameworkAdapter
 )
 
-import asyncio
-# from Bots.activitybot import ActivityBot
 from http import HTTPStatus
-from aiohttp.web import Request, Response, json_response
+from aiohttp.web import Response
 from bots.teams_task_module_bot import TeamsTaskModuleBot
 from config import DefaultConfig
 
 CONFIG = DefaultConfig()
 
 app = Flask(__name__)
-
-botadaptersettings = BotFrameworkAdapterSettings("","")
-botadapter = BotFrameworkAdapter(botadaptersettings)
 
 SETTINGS = BotFrameworkAdapterSettings(os.environ.get("MicrosoftAppId"), os.environ.get("MicrosoftAppPassword"))
 ADAPTER = BotFrameworkAdapter(SETTINGS)

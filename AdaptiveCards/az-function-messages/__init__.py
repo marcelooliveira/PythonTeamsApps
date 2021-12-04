@@ -1,4 +1,6 @@
 from flask import Flask,request,Response
+import sys
+
 import azure.functions as func 
 import os
 from botbuilder.schema import Activity
@@ -14,6 +16,9 @@ from config import DefaultConfig
 CONFIG = DefaultConfig()
 
 app = Flask(__name__)
+
+this = sys.modules[__name__]
+this.cacheHelper = None
 
 SETTINGS = BotFrameworkAdapterSettings(os.environ.get("MicrosoftAppId"), os.environ.get("MicrosoftAppPassword"))
 ADAPTER = BotFrameworkAdapter(SETTINGS)

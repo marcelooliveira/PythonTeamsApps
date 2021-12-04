@@ -1,29 +1,22 @@
 # Copyright (c) Microsoft Corp. All rights reserved.
 # Licensed under the MIT License.
 
-import json
 import os
 from http import HTTPStatus
 
 from botbuilder.core import (
     CardFactory,
-    MessageFactory,
     TurnContext,
 )
-from botbuilder.schema import HeroCard, Attachment, CardAction
 from botbuilder.schema.teams import (
-    TaskModuleMessageResponse,
     TaskModuleRequest,
     TaskModuleResponse,
-    TaskModuleTaskInfo,
     TabRequest,
     TabSubmit
 )
 from botbuilder.core.teams import TeamsActivityHandler
 
-from config import DefaultConfig
 from graphClient import GraphClient
-from microsoftgraph.client import Client
 
 class TeamsTaskModuleBot(TeamsActivityHandler):
     async def on_teams_tab_fetch(  # pylint: disable=unused-argument
@@ -56,7 +49,7 @@ class TeamsTaskModuleBot(TeamsActivityHandler):
 
         profile = graphClient.GetUserProfile()
 
-        userImage = graphClient.GetUserPhoto()
+        userImage = graphClient.GetUserPhoto(profile["id"])
 
         return createFetchResponse(userImage, profile["displayName"])
 
@@ -199,7 +192,7 @@ def getAdaptiveCardUserDetails(image, name):
 
 # Adaptive Card showing sample text and Submit Action
 def getAdaptiveCardSubmitAction():
-    adaptiveCard = {
+    return {
         "$schema": 'http://adaptivecards.io/schemas/adaptive-card.json',
         "body": [
             {
@@ -235,8 +228,6 @@ def getAdaptiveCardSubmitAction():
         "type": 'AdaptiveCard',
         "version": '1.4'
     };
-
-    return adaptiveCard
 
 def invokeTaskResponse():
     adaptiveCard = {
@@ -347,7 +338,7 @@ def createSubmitResponse():
               'value': {
                   'cards': [
                       {
-                          'card': signOutCard,
+                          'card': signOutCard(),
                       }
                   ]
               },
@@ -358,7 +349,8 @@ def createSubmitResponse():
   return CardFactory.adaptive_card(adaptive_card)
 
 # Adaptive Card to show sign out action
-signOutCard = {
+def signOutCard():
+    return {
     '$schema': 'http://adaptivecards.io/schemas/adaptive-card.json',
     'body': [
         {

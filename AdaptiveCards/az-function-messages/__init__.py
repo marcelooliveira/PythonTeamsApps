@@ -8,7 +8,6 @@ from botbuilder.core import(
 )
 
 from http import HTTPStatus
-from aiohttp.web import Response
 from bots.teams_task_module_bot import TeamsTaskModuleBot
 from config import DefaultConfig
 

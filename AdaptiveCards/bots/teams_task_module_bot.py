@@ -26,9 +26,6 @@ from graphClient import GraphClient
 from microsoftgraph.client import Client
 
 class TeamsTaskModuleBot(TeamsActivityHandler):
-    def __init__(self, config: DefaultConfig):
-        self.__base_url = config.BASE_URL
-
     async def on_teams_tab_fetch(  # pylint: disable=unused-argument
         self, turn_context: TurnContext, tab_request: TabRequest
     ):

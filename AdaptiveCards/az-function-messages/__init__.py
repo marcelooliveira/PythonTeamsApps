@@ -19,7 +19,7 @@ app = Flask(__name__)
 SETTINGS = BotFrameworkAdapterSettings(os.environ.get("MicrosoftAppId"), os.environ.get("MicrosoftAppPassword"))
 ADAPTER = BotFrameworkAdapter(SETTINGS)
 
-BOT = TeamsTaskModuleBot(CONFIG)
+BOT = TeamsTaskModuleBot()
 
 def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
     return func.WsgiMiddleware(app).handle(req, context)

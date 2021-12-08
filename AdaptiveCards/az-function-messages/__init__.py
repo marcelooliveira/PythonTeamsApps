@@ -26,7 +26,8 @@ ADAPTER = BotFrameworkAdapter(SETTINGS)
 BOT = TeamsTaskModuleBot()
 
 def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
-    return func.WsgiMiddleware(app).handle(req, context)
+    response = func.WsgiMiddleware(app).handle(req, context)
+    return response
 
 @app.route("/api/az-function-messages",methods=["POST"])
 async def messages():

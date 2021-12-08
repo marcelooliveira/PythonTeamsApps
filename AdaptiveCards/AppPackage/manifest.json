@@ -1,7 +1,7 @@
 ﻿{
   "$schema": "https://raw.githubusercontent.com/OfficeDev/microsoft-teams-app-schema/preview/DevPreview/MicrosoftTeams.schema.json",
   "manifestVersion": "1.9",
-  "version": "3.0.0",
+  "version": "1.0.0",
   "id": "4d9e95ab-ebe3-4976-82e9-3526d5c54906",
   "packageName": "com.microsoft.teams.tabadaptivecard",
   "developer": {
@@ -34,7 +34,6 @@
   "permissions": [ "identity", "messageTeamMembers" ],
   "validDomains": [
     "*.ngrok.io",
-    "token.botframework.com",
-    "https://adaptive-cards-function-app.azurewebsites.net"
+    "token.botframework.com"
   ]
 }
